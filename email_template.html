@@ -1,0 +1,338 @@
+<div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="sysmailForm">
+    <title>来自未来的一封信</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding: 24px 24px 35px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            max-width: 600px;
+            margin: 0 auto;
+            color: black;
+            background-color: white;
+        }
+        .web-container {
+            background-color: #F2F3F4;
+            padding-top: 54px;
+            padding-bottom: 60px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 817px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            margin: 40px auto;
+        }
+        .title {
+            display: block;
+            font-size: 15px;
+            color: #656566;
+            letter-spacing: 4px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 320px;
+            padding: 0 12px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .status-container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            -moz-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            margin-top: 14px;
+            width: 100%;
+            max-width: 320px;
+            padding: 0 12px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .status-container span {
+            display: block;
+            opacity: 0.6;
+            font-size: 13px;
+            color: #656566;
+            letter-spacing: 2px;
+        }
+        .status-container .send-time {
+            letter-spacing: 0px;
+        }
+        .status-container span:nth-child(n + 2) {
+            margin-top: 7px;
+        }
+        .card-container {
+            margin-top: 24px;
+            position: relative;
+            padding:3px;
+            width: 100%;
+        }
+        .card-img {
+            width: 100%;
+            max-width: 350px;
+            max-height: 490px;
+            display: block;
+            margin: 0 auto;
+        }
+        .content-container {
+            width: 240px;
+            max-width: 80%;
+            position: absolute;
+            top: 10%;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: center;
+            /* -webkit-align-items: center; */
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            /* align-items: center; */
+        }
+        @media screen and (max-width: 360px) {
+            .content-container {
+                max-width: 100%;
+                -webkit-transform: scale(.8);
+                -moz-transform: scale(.8);
+                -ms-transform: scale(.8);
+                -o-transform: scale(.8);
+                transform: scale(.8);
+                -webkit-transform-origin: top;
+                -moz-transform-origin: top;
+                -ms-transform-origin: top;
+                -o-transform-origin: top;
+                transform-origin: top;
+            }
+        }
+        @media screen and (max-width: 320px) {
+            .content-container {
+                -webkit-transform: scale(.7);
+                -moz-transform: scale(.7);
+                -ms-transform: scale(.7);
+                -o-transform: scale(.7);
+                transform: scale(.7);
+                -webkit-transform-origin: top;
+                -moz-transform-origin: top;
+                -ms-transform-origin: top;
+                -o-transform-origin: top;
+                transform-origin: top;
+            }
+        }
+        .nickname-container {
+            /* display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center; */
+            /* -webkit-justify-content: center; */
+            /* -moz-box-pack: center;
+            -ms-flex-pack: center; */
+            /* justify-content: center; */
+            width: 100%;
+        }
+        .nickname-container span {
+            font-size: 13px;
+            color: #ffffff;
+            letter-spacing: 2px;
+            display: block;
+            margin-top: 1%;
+            line-height: 18px;
+            opacity: 0.7;
+        }
+        .nickname {
+            overflow: hidden;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 60%;
+            margin-right: 5px;
+        }
+        .tag {
+            display: block;
+            font-size: 36px !important;
+            color: #fff;
+            letter-spacing: 4.8px;
+            margin-top: 29.7%;
+            line-height: 36px;
+        }
+        .separate-line {
+            background: #fff;
+            width: 30px;
+            height: 1px;
+            margin-top: 10.7%;
+            opacity: 0.5;
+        }
+        .slogan {
+            font-size: 12px;
+            color: #fff;
+            letter-spacing: 0.92px;
+            line-height: 22px;
+            margin-top: 10%;
+            word-break: break-word;
+            /* text-align: center; */
+            line-height: 18px;
+            opacity: 0.7;
+        }
+        .slogan-author {
+            font-size: 12px;
+            color: #fff;
+            letter-spacing: 0.92px;
+            margin-top: 6px;
+            opacity: 0.7;
+        }
+        .logo {
+            display: block;
+            width: 151px;
+            height: 28px;
+            margin-top: 49px;
+        }
+    </style>
+
+
+</div>
+<div class="container web-container">
+    <span id="title" class="title" style="color: black">给未来的一封信</span>
+    <div class="status-container">
+        <div>
+            <span>送达时间</span>
+            <span>发送时间</span>
+            <span>投递状态</span>
+        </div>
+        <div>
+            <span id="remain-day" style="opacity: 1; font-weight: bold">剩余365天</span>
+            <span id="send-time" class="send-time">2023.12.09&nbsp;11:33</span>
+            <span>已发出</span>
+        </div>
+    </div>
+    <div class="card-container">
+        <img class="card-img" src="{{trendimg}}" style="width: 350px; height: 489px; max-width: initial;" width="350" height="489">
+        <div class="content-container">
+            <div class="nickname-container">
+                <span class="nickname">hellozhang9658</span>
+                <span style="display: block;">的新年星光</span>
+            </div>
+            <span class="tag">向远方</span>
+            <div class="separate-line"></div>
+            <span class="slogan">关键是你的目光，而不是你的所见。</span>
+            <span class="slogan-author">纪德</span>
+        </div>
+    </div>
+      <div class="card-container">
+        <img class="card-img" src="{{trendimg3}}" style="width: 350px; height: 489px; max-width: initial;" width="350" height="489">
+        <div class="content-container">
+            <div class="nickname-container">
+                <span class="nickname">hellozhang9658</span>
+                <span style="display: block;">的新年星光</span>
+            </div>
+            <span class="tag">向远方</span>
+            <div class="separate-line"></div>
+            <span class="slogan">关键是你的目光，而不是你的所见。</span>
+            <span class="slogan-author">纪德</span>
+        </div>
+    </div>
+    <img class="logo" src="https://rescdn.qqmail.com/qqmail/images/qqmail_logo_152x29.png">
+</div>
+
+<script>
+    (function () {
+        function isMailApp() {
+            return /mailapp/i.test(navigator.userAgent);
+        }
+        function isIOS() {
+            return navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        }
+        function showApp() {
+            document.querySelector('.container').classList.remove('web-container');
+            document.querySelector('.logo').style.display = 'none';
+        }
+        function addDarkModeExempt() {
+            document.querySelector('.container').classList.add('qm-darkmode-custom');
+            if (isIOS()) {
+                var imgs = document.querySelectorAll('img');
+                if (imgs && imgs.length) {
+                    for (var i = 0; i < imgs.length; i++) {
+                        imgs[i].classList.add('qm-darkmode-custom-child');
+                    }
+                }
+            }
+				}
+				Date.prototype.format = function (fmt) {
+					var o = {
+						"M+" : this.getMonth()+1,
+						"d+" : this.getDate(),
+						"h+" : this.getHours(),
+						"m+" : this.getMinutes(),
+						"s+" : this.getSeconds(),
+					};
+					if (/(y+)/.test(fmt)) {
+						fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+					}
+					for(var k in o) {
+						if(new RegExp("("+ k +")").test(fmt)){
+							fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+						}
+					}
+					return fmt;
+				}
+        function showRemainTime() {
+            var sendTimeObj = { value: '1733715208' };
+            var sendTime = (parseInt(sendTimeObj.value) || 1638316800) * 1000;
+            var remainDay = Math.floor((sendTime - new Date().getTime()) / 86400000);
+            document.getElementById('remain-day').innerText = '剩余' + remainDay + '天';
+            console.log('remainDay', remainDay);
+       }
+        function init() {
+            showRemainTime();
+            if (!isMailApp()) return;
+            showApp();
+            addDarkModeExempt();
+        }
+        init();
+    })()
+</script>
+
+<div xmail-signature=""><xm-signature signature-editable="true" signature-id="-1" contenteditable="false"></xm-signature><p></p></div>

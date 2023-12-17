@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example Email with Table</title>
+</head>
+<style>
+
+    table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+	border: 1px solid #e9e9e9;
+}
+table th {
+	background: #f7f7f7;
+	color: #5c6b77;
+	font-weight: 600;
+	white-space: nowrap;
+}
+table td,table th {
+	padding: 8px 16px;
+	border: 1px solid #e9e9e9;
+	text-align: left;
+}
+
+</style>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding: 24px 24px 35px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            max-width: 600px;
+            margin: 0 auto;
+            color: black;
+            background-color: white;
+        }
+        .web-container {
+            background-color: #F2F3F4;
+            padding-top: 54px;
+            padding-bottom: 60px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 817px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            margin: 40px auto;
+        }
+        .title {
+            display: block;
+            font-size: 15px;
+            color: #656566;
+            letter-spacing: 4px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 320px;
+            padding: 0 12px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .status-container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            -moz-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            margin-top: 14px;
+            width: 100%;
+            max-width: 320px;
+            padding: 0 12px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .status-container span {
+            display: block;
+            opacity: 0.6;
+            font-size: 13px;
+            color: #656566;
+            letter-spacing: 2px;
+        }
+        .status-container .send-time {
+            letter-spacing: 0px;
+        }
+        .status-container span:nth-child(n + 2) {
+            margin-top: 7px;
+        }
+        .card-container {
+            margin-top: 24px;
+            position: relative;
+            padding:3px;
+            width: 100%;
+        }
+        .card-img {
+            width: 100%;
+            max-width: 350px;
+            max-height: 490px;
+            display: block;
+            margin: 0 auto;
+        }
+        .content-container {
+            width: 240px;
+            max-width: 80%;
+            position: absolute;
+            top: 10%;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: center;
+            /* -webkit-align-items: center; */
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            /* align-items: center; */
+        }
+        @media screen and (max-width: 360px) {
+            .content-container {
+                max-width: 100%;
+                -webkit-transform: scale(.8);
+                -moz-transform: scale(.8);
+                -ms-transform: scale(.8);
+                -o-transform: scale(.8);
+                transform: scale(.8);
+                -webkit-transform-origin: top;
+                -moz-transform-origin: top;
+                -ms-transform-origin: top;
+                -o-transform-origin: top;
+                transform-origin: top;
+            }
+        }
+        @media screen and (max-width: 320px) {
+            .content-container {
+                -webkit-transform: scale(.7);
+                -moz-transform: scale(.7);
+                -ms-transform: scale(.7);
+                -o-transform: scale(.7);
+                transform: scale(.7);
+                -webkit-transform-origin: top;
+                -moz-transform-origin: top;
+                -ms-transform-origin: top;
+                -o-transform-origin: top;
+                transform-origin: top;
+            }
+        }
+        .nickname-container {
+            /* display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center; */
+            /* -webkit-justify-content: center; */
+            /* -moz-box-pack: center;
+            -ms-flex-pack: center; */
+            /* justify-content: center; */
+            width: 100%;
+        }
+        .nickname-container span {
+            font-size: 13px;
+            color: #ffffff;
+            letter-spacing: 2px;
+            display: block;
+            margin-top: 1%;
+            line-height: 18px;
+            opacity: 0.7;
+        }
+        .nickname {
+            overflow: hidden;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 60%;
+            margin-right: 5px;
+        }
+        .tag {
+            display: block;
+            font-size: 36px !important;
+            color: #fff;
+            letter-spacing: 4.8px;
+            margin-top: 29.7%;
+            line-height: 36px;
+        }
+        .separate-line {
+            background: #fff;
+            width: 30px;
+            height: 1px;
+            margin-top: 10.7%;
+            opacity: 0.5;
+        }
+        .slogan {
+            font-size: 12px;
+            color: #fff;
+            letter-spacing: 0.92px;
+            line-height: 22px;
+            margin-top: 10%;
+            word-break: break-word;
+            /* text-align: center; */
+            line-height: 18px;
+            opacity: 0.7;
+        }
+        .slogan-author {
+            font-size: 12px;
+            color: #fff;
+            letter-spacing: 0.92px;
+            margin-top: 6px;
+            opacity: 0.7;
+        }
+        .logo {
+            display: block;
+            width: 151px;
+            height: 28px;
+            margin-top: 49px;
+        }
+
+
+  </style>
+
+  <style type="text/css">
+    .container {
+      width: 100%;
+      max-width: 600px; /* 调整此值以更改最大宽度 */
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .image-container {
+      width: 50%;
+      box-sizing: border-box;
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+
+
+      .play_lst ul {
+    width: 100%;
+}
+.play_lst ul li {
+    width:350px;
+    margin-right: 0;
+    margin-bottom: 20px;
+    background: #f5f5f5;
+    position: relative;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+    -moz-transition-duration: .3s;
+    -o-transition-duration: .3s;
+    -ms-transition-duration: .3s;
+}
+.universal li {
+   with:385px;
+
+    float: left;
+    overflow: hidden;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+    -moz-transition-duration: .3s;
+    -o-transition-duration: .3s;
+    -ms-transition-duration: .3s;
+}
+
+
+.universal li a {
+    display: block;
+    position: relative;
+    background-color: #f5f5f5;
+}
+.universal li img {
+    vertical-align: top;
+}
+.img_label {
+    display: inline;
+    font-size: 12px;
+    color: #fff;
+    padding: 0 8px;
+    left: 10px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -ms-border-radius: 9px;
+    -o-border-radius: 9px;
+    border-radius: 9px;
+}.scenerybox {
+    padding: 10px;
+    overflow: hidden;
+}.scenerybox p {
+    line-height: 19px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}.scenerybox .describe, .scenerybox p {
+    color: #666;
+    font-size: 14px;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  </style>
+<body>
+    <h1>Hello, {{ name }}!</h1>
+    <p>This is an example email sent using a template.</p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user['name'] }}</td>
+                <td>{{ user['email'] }}</td>
+                <td>{{ user['age'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li>
+    <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li>
+     <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li> <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li>
+     <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li>
+     <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li> <li style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+        <img src="https://gimg3.baidu.com/rel/src=https%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D3539911221%2C3994175071%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D75%26size%3Df1138_640&refer=http%3A%2F%2Fwww.baidu.com&app=2010&size=w560&n=0&g=0n&q=100&fmt=auto?sec=1702832400&t=92c3204d33f286b83f1513388239d628" alt="Image 1" style="max-width: 100%; height: auto;">
+        <p style="font-size: 14px; color: #333;">Image 1 description</p>
+    </li>
+
+
+
+</body>
+</html>
