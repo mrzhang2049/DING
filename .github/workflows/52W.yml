@@ -3,7 +3,7 @@ name: 52W
 on:
   schedule:
   - cron:  '30 14 * * 0-6'
-  workflow_dispatch:
+
 
 jobs:
   send_message:
@@ -13,7 +13,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
       with:
-        ref: master
+        ref: main
     - name: sender
       uses: actions/setup-python@v2
       with:
