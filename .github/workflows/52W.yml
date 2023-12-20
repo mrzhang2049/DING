@@ -11,7 +11,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: master
-
     - name: sender
       uses: actions/setup-python@v2
       with:
@@ -19,6 +18,3 @@ jobs:
         architecture: 'x64'
     - run: pip install -r ./requirements.txt && python ./main3.py
 
-    env:
-      TOKEN_DD: ${{ secrets.TOKEN_DD }}
-      CITY: ${{ secrets.CITY }}
