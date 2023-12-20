@@ -1,7 +1,10 @@
+
 name: 52W
 on:
   schedule:
-  - cron: "30 14 * * 0-6"
+  - cron:  '30 14 * * 0-6'
+  workflow_dispatch:
+
 jobs:
   send_message:
     runs-on: ubuntu-latest
@@ -17,4 +20,6 @@ jobs:
         python-version: '3.x'
         architecture: 'x64'
     - run: pip install -r ./requirements.txt && python ./main3.py
+
+
 
