@@ -58,50 +58,36 @@ def send_msg():
     try:
         smtp = smtplib.SMTP_SSL('smtp.qq.com', 465)
         smtp.login(username, password)
-        #smtp.sendmail(from_address, to_address, msg.as_string())
+        # smtp.sendmail(from_address, to_address, msg.as_string())
         print('发送成功')
     except:
         print('发送失败')
+
+
 if __name__ == '__main__':
     send_msg()
     vika = Vika("uskKX37HkZuodf8VkY7CiQ1")
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
-    list = datasheet.records.filter(Name="QWE33")
-    time.sleep(10)
-    if list.count()==0:
-        records = datasheet.records.bulk_create([
-            {
-                "Name": "QWE33",
-                "Code": "10902",
-                "StartDate": 1698854400000,
-                "StartValue": 1.09,
-                "CurrentValue": 1.2
-            },
-            {
-                "Name": "QW",
-                "Code": "10902",
-                "StartDate": 1698854400000,
-                "StartValue": 1.09,
-                "CurrentValue": 1.2
-            }
-        ])
-    else:
-        print(list)
-        row = list.first()
-        _file = datasheet.upload_file('https://cdn.nlark.com/yuque/0/2023/png/12406411/1687853326261-51894522-7b39-4bca-b83a-e8bd60eab30a.png')
-        time.sleep(2)
-        row.Image = [_file]
-        time.sleep(2)
-        # 创建单条记录
-        row.update({
-            "Name": "HelloZhang",
-            "Code": "902",
-            "StartDate": 1698854400000,
-            "StartValue": 1.09,
-            "CurrentValue": 1.2,
-        })
-
-
-
-
+    i = 0
+    while i <= 345:
+        i += 1
+        url = f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time&cursor={i}';
+        print(url)
+        res = requests.get(url).json()
+        datalist = res['data']['candle']
+        for item in datalist:
+            time.sleep(3)
+            list = datasheet.records.filter(Name=item[3])
+            print(item[10])
+            print(item[8])
+            if list.count() == 0 and item[10] == item[8]:
+                time.sleep(3)
+                records = datasheet.records.bulk_create([
+                    {
+                        "Name": item[0],
+                        "Code": item[2],
+                        "StartDate": item[12],
+                        "CurrentValue": item[10]
+                    }
+                ])
