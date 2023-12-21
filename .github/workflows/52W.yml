@@ -1,7 +1,10 @@
+
 name: 52W
 on:
   schedule:
-  - cron: "30 14 * * 0-6"
+  - cron:  '30 14 * * 0-6'
+
+
 jobs:
   send_message:
     runs-on: ubuntu-latest
@@ -10,8 +13,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
       with:
-        ref: master
-
+        ref: main
     - name: sender
       uses: actions/setup-python@v2
       with:
@@ -19,6 +21,5 @@ jobs:
         architecture: 'x64'
     - run: pip install -r ./requirements.txt && python ./main3.py
 
-    env:
-      TOKEN_DD: ${{ secrets.TOKEN_DD }}
-      CITY: ${{ secrets.CITY }}
+
+
