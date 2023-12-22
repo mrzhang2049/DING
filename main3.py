@@ -67,12 +67,13 @@ def send_msg():
 
 if __name__ == '__main__':
     num =(int)(sys.argv[1])
+    print(num)
     vika = Vika("uskKX37HkZuodf8VkY7CiQ1")
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
-    i = num
+    i = (num-1)*8
     session = requests.session()
-    while i <= num*8 and i>(num-1)*8:
+    while i <= num*8 and i>=(num-1)*8:
         i += 1
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
