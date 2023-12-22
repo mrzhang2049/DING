@@ -1,6 +1,7 @@
 
 name: 52W
 on:
+  push:
   schedule:
   - cron:  '30 14 * * 0-6'
 
