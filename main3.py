@@ -1,18 +1,14 @@
-import os
-import math
-import json
+
 import sys
 import random
 import time
 import smtplib
 import requests
-import datetime
-from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
-from vika import Vika
 
+from datetime import  datetime
 from_address = 'hellozhangxf@qq.com'
 to_address = 'hellozhangxf@qq.com'
 subject = '小伙刮中100万拔腿就跑了'

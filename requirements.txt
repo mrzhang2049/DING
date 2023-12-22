@@ -1,19 +1,10 @@
-certifi
-cffi
+
 charset-normalizer==2.1.0
-cryptography
-idna==3.3
-optionaldict==0.1.2
-pycparser==2.21
-python-dateutil==2.8.2
 requests
 six==1.16.0
-urllib3
 xmltodict==0.13.0
 DingtalkChatbot
 Jinja2
-DrissionPage
-Vika
-pandas
 numpy
+datetime
 
