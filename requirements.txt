@@ -14,5 +14,6 @@ DingtalkChatbot
 Jinja2
 DrissionPage
 Vika
-
+pandas
+numpy
 

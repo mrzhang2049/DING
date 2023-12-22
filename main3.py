@@ -73,12 +73,14 @@ if __name__ == '__main__':
     session = requests.session()
     while i <= 345:
         i += 1
+        if i / 50 == 0:
+            time.sleep(60)
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
         }
         url = f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time&cursor={i}';
         print(url)
-        res = session.get(url,headers=headers).json()
+        res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
             time.sleep(3)
