@@ -70,16 +70,18 @@ if __name__ == '__main__':
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
     i = 0
+    session = requests.session()
     while i <= 345:
         i += 1
         url = f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time&cursor={i}';
         print(url)
-        res = requests.get(url).json()
+        res = session.get(url).json()
         datalist = res['data']['candle']
         for item in datalist:
             time.sleep(3)
             list = datasheet.records.filter(Name=item[3])
             print(item[10])
+            print(item[3])
             print(item[8])
             if list.count() == 0 and item[10] == item[8]:
                 time.sleep(3)
