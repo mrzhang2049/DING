@@ -75,6 +75,8 @@ if __name__ == '__main__':
         i += 1
         if i / 50 == 0:
             time.sleep(60)
+        if i / 5 == 0:
+            time.sleep(5)
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
         }
