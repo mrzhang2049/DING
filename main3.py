@@ -1,6 +1,7 @@
 import os
 import math
 import json
+import sys
 import random
 import time
 import smtplib
@@ -65,18 +66,14 @@ def send_msg():
 
 
 if __name__ == '__main__':
-    send_msg()
+    num =(int)(sys.argv[1])
     vika = Vika("uskKX37HkZuodf8VkY7CiQ1")
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
     i = 0
     session = requests.session()
-    while i <= 345:
+    while i <= num*8 and i>=(num-1)*8:
         i += 1
-        if i / 50 == 0:
-            time.sleep(60)
-        if i / 5 == 0:
-            time.sleep(5)
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
         }
@@ -87,9 +84,9 @@ if __name__ == '__main__':
         for item in datalist:
             time.sleep(3)
             list = datasheet.records.filter(Name=item[3])
-            print(item[10])
-            print(item[3])
-            print(item[8])
+            # print(item[10])
+            # print(item[3])
+            # print(item[8])
             if list.count() == 0 and item[10] == item[8]:
                 time.sleep(3)
                 records = datasheet.records.bulk_create([
