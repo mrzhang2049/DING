@@ -1,6 +1,5 @@
 import sys
 import random
-import time
 import smtplib
 import requests
 from email.mime.multipart import MIMEMultipart
