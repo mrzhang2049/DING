@@ -10,7 +10,7 @@ from datetime import datetime
 
 from_address = 'hellozhangxf@qq.com'
 to_address = 'hellozhangxf@qq.com'
-subject = '小伙刮中100万拔腿就跑了'
+subject = '小伙刮中100了'
 
 
 def send_msg():
