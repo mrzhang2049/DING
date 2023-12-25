@@ -1,4 +1,3 @@
-
 import sys
 import random
 import time
@@ -7,8 +6,9 @@ import requests
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
+from dingtalkchatbot.chatbot import DingtalkChatbot
+from datetime import datetime
 
-from datetime import  datetime
 from_address = 'hellozhangxf@qq.com'
 to_address = 'hellozhangxf@qq.com'
 subject = '小伙刮中100万拔腿就跑了'
@@ -60,10 +60,21 @@ def send_msg():
     except:
         print('发送失败')
 
+def send_dingtalk(msg):
+        """
+        @param date_str:
+        @param msg:
+        @param at_all:
+        @return:
+        """
+        webhook = 'https://oapi.dingtalk.com/robot/send?access_token=dd9371044f8fa37f87d0e2d6aa7779e9e0fe5726fa37d512d07c153829a526ab'
+        secret = 'SEC85ac2fe0afe69b9d7b74ab53e9858521247477bfa564668a98eac07ae4d5344e'
+        xiaoding = DingtalkChatbot(webhook, secret=secret)
+        xiaoding.send_text(msg, is_at_all=False)
+
 
 if __name__ == '__main__':
     num = (int)(sys.argv[1])
-    print(num)
     # vika = Vika("uskKX37HkZuodf8VkY7CiQ1")
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     # datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
@@ -73,7 +84,7 @@ if __name__ == '__main__':
     filename = f'./document_{current_date}.txt'
     with open(filename, 'w+') as file:
         file.write(datetime.now().strftime('%Y-%m-%d'))
-    while i <= num * 8 and i >= (num - 1) * 8:
+    while num * 8 >= i >= (num - 1) * 8:
         i += 1
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
@@ -83,13 +94,13 @@ if __name__ == '__main__':
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
-            time.sleep(3)
-
+            # time.sleep(3)
             # list = datasheet.records.filter(Name=item[3])
             # print(item[10])
             # print(item[3])
             # print(item[8])
             if item[10] == item[8]:
+                send_dingtalk(item[0])
                 with open(filename, 'w+') as file:
                     file.write(item[3])
                 # time.sleep(3)
