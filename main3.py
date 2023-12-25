@@ -70,7 +70,7 @@ if __name__ == '__main__':
     i = (num - 1) * 8
     session = requests.session()
     current_date = datetime.now().strftime('%Y-%m-%d')
-    filename = f'document_{current_date}.txt'
+    filename = f'./document_{current_date}.txt'
     while i <= num * 8 and i >= (num - 1) * 8:
         i += 1
         headers = {
@@ -82,6 +82,7 @@ if __name__ == '__main__':
         datalist = res['data']['candle']
         for item in datalist:
             time.sleep(3)
+
             # list = datasheet.records.filter(Name=item[3])
             # print(item[10])
             # print(item[3])
