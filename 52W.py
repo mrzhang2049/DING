@@ -59,17 +59,18 @@ def send_msg():
     except:
         print('发送失败')
 
+
 def send_dingtalk(msg):
-        """
+    """
         @param date_str:
         @param msg:
         @param at_all:
         @return:
         """
-        webhook = 'https://oapi.dingtalk.com/robot/send?access_token=dd9371044f8fa37f87d0e2d6aa7779e9e0fe5726fa37d512d07c153829a526ab'
-        secret = 'SEC85ac2fe0afe69b9d7b74ab53e9858521247477bfa564668a98eac07ae4d5344e'
-        xiaoding = DingtalkChatbot(webhook, secret=secret)
-        xiaoding.send_text(msg, is_at_all=False)
+    webhook = 'https://oapi.dingtalk.com/robot/send?access_token=dd9371044f8fa37f87d0e2d6aa7779e9e0fe5726fa37d512d07c153829a526ab'
+    secret = 'SEC85ac2fe0afe69b9d7b74ab53e9858521247477bfa564668a98eac07ae4d5344e'
+    xiaoding = DingtalkChatbot(webhook, secret=secret)
+    xiaoding.send_text(msg, is_at_all=False)
 
 
 if __name__ == '__main__':
@@ -84,7 +85,7 @@ if __name__ == '__main__':
     with open(filename, 'w+') as file:
         file.write(datetime.now().strftime('%Y-%m-%d'))
     while num * 8 >= i >= (num - 1) * 8:
-        i += 1
+        i = i + 1
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
         }
