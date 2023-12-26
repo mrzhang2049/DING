@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
 from dingtalkchatbot.chatbot import DingtalkChatbot
-from datetime import datetime
+from datetime import datetime, time
 from notion_client import Client
 from_address = 'hellozhangxf@qq.com'
 to_address = 'hellozhangxf@qq.com'
@@ -77,12 +77,13 @@ if __name__ == '__main__':
     num = (int)(sys.argv[1])
     database_id = '61b85174dbb64557ae4721104bc267ab'
     notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
-
+    notion = Client(auth=notion_token)
     parent = {"database_id": database_id, "type": "database_id"}
     # vika = Vika("uskKX37HkZuodf8VkY7CiQ1")
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     # datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
     i = (num - 1) * 8
+    time.sleep(i)
     session = requests.session()
     current_date = datetime.now().strftime('%Y-%m-%d')
     filename = f'./document_{current_date}.txt'
@@ -98,11 +99,7 @@ if __name__ == '__main__':
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
-            # time.sleep(3)
-            # list = datasheet.records.filter(Name=item[3])
-            # print(item[10])
-            # print(item[3])
-            # print(item[8])
+            time.sleep(3)
             if item[10] == item[8]:
                 new_page = {
                     "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
@@ -111,17 +108,5 @@ if __name__ == '__main__':
                                          "external": {
                                              "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
                 }
-                notion = Client(auth=notion_token)
                 notion.pages.create(parent=parent, properties=new_page)
                 send_dingtalk(item[0])
-                # with open(filename, 'w+') as file:
-                #     file.write(item[3])
-                # time.sleep(3)
-                # records = datasheet.records.bulk_create([
-                #     {
-                #         "Name": item[0],
-                #         "Code": item[2],
-                #         "StartDate": item[12],
-                #         "CurrentValue": item[10]
-                #     }
-                # ])

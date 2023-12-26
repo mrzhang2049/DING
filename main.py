@@ -3,7 +3,7 @@ import math
 import json
 import random
 import requests
-import datetime
+
 from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 
 # 获取天气和温度
