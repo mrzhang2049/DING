@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 from jinja2 import Template
 from dingtalkchatbot.chatbot import DingtalkChatbot
 from datetime import datetime
-
+from notion_client import Client
 from_address = 'hellozhangxf@qq.com'
 to_address = 'hellozhangxf@qq.com'
 subject = '小伙刮中100万拔腿就跑了'
@@ -75,6 +75,10 @@ def send_dingtalk(msg):
 
 if __name__ == '__main__':
     num = (int)(sys.argv[1])
+    database_id = '61b85174dbb64557ae4721104bc267ab'
+    notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
+    notion = Client(auth=notion_token)
+    parent = {"database_id": database_id, "type": "database_id"}
     # vika = Vika("uskKX37HkZuodf8VkY7CiQ1")
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     # datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
@@ -100,9 +104,17 @@ if __name__ == '__main__':
             # print(item[3])
             # print(item[8])
             if item[10] == item[8]:
+                new_page = {
+                    "Name": {"title": [{"text": {"content": item[0]}}]},
+                    "Tags": {"type": "multi_select", "multi_select": [{"name": i}]},
+                    "Cover": {"files": [{"type": "external", "name": "Cover",
+                                         "external": {
+                                             "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
+                }
+                notion.pages.create(parent=parent, properties=new_page)
                 send_dingtalk(item[0])
-                with open(filename, 'w+') as file:
-                    file.write(item[3])
+                # with open(filename, 'w+') as file:
+                #     file.write(item[3])
                 # time.sleep(3)
                 # records = datasheet.records.bulk_create([
                 #     {

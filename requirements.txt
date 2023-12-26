@@ -1,4 +1,3 @@
-
 charset-normalizer==2.1.0
 requests
 six==1.16.0
@@ -7,4 +6,5 @@ DingtalkChatbot
 Jinja2
 numpy
 datetime
+notion_client
 
