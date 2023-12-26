@@ -84,7 +84,7 @@ if __name__ == '__main__':
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     # datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
     i = (num - 1) * 8
-    time.sleep(i)
+    time.sleep(5)
     session = requests.session()
     current_date = datetime.now().strftime('%Y-%m-%d')
     filename = f'./document_{current_date}.txt'
