@@ -105,8 +105,8 @@ if __name__ == '__main__':
             # print(item[8])
             if item[10] == item[8]:
                 new_page = {
-                    "Name": {"title": [{"text": {"content": item[0]}}]},
-                    "Tags": {"type": "multi_select", "multi_select": [{"name": i}]},
+                    "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
+                    "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},
                     "Cover": {"files": [{"type": "external", "name": "Cover",
                                          "external": {
                                              "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
