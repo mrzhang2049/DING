@@ -6,7 +6,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
 from dingtalkchatbot.chatbot import DingtalkChatbot
-from datetime import datetime, time
+from datetime import datetime
+import time
 from notion_client import Client
 from_address = 'hellozhangxf@qq.com'
 to_address = 'hellozhangxf@qq.com'
