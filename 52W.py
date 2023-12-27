@@ -84,7 +84,8 @@ if __name__ == '__main__':
     # 通过 datasheetId 来指定要从哪张维格表操作数据。
     # datasheet = vika.datasheet("dst1CSXS5xqdZJHTLZ", field_key="name")
     i = (num - 1) * 8
-    time.sleep(5)
+    random_number = random.random()
+    time.sleep(random_number)
     session = requests.session()
     current_date = datetime.now().strftime('%Y-%m-%d')
     filename = f'./document_{current_date}.txt'
@@ -100,14 +101,27 @@ if __name__ == '__main__':
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
-            time.sleep(3)
             if item[10] == item[8]:
-                new_page = {
-                    "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
-                    "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},
-                    "Cover": {"files": [{"type": "external", "name": "Cover",
-                                         "external": {
-                                             "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
-                }
-                notion.pages.create(parent=parent, properties=new_page)
-                send_dingtalk(item[0])
+                query_result = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}.get("results")
+                no_of_results = len(query_result)
+                if no_of_results == 0:
+                    new_page = {
+                        "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
+                        "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},
+                        "Date": {"date": current_date},
+                        "Number": {"number": 0},
+                        "Cover": {"files": [{"type": "external", "name": "Cover",
+                                             "external": {
+                                                 "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
+                    }
+                    notion.pages.create(parent=parent, properties=new_page)
+                    send_dingtalk(item[0])
+                else:
+                    for result in query_result['results']:
+                        page_id = result['id']
+                        number = result.get("properties").get("Number").get("number")
+                        new_page = {
+                            "Number": {"number": number + 1},
+                            "Date": {"date": current_date},
+                        }
+                        notion.pages.update(page_id=page_id, properties=new_page)
