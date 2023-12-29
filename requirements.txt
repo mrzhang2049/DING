@@ -7,5 +7,9 @@ Jinja2
 numpy
 datetime
 efinance
-notion_client
+retrying
+notion-client
+easyNotion
+tenacity
+
 
