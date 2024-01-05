@@ -5,11 +5,11 @@ from datetime import datetime
 import random
 from retrying import retry
 # Initialize the client
-database_id = 'bb2fb25816164d249c94bfcfe0b801bd'
+database_id = '94d7835c3b6741c1a1ce0d9414b8bcbe'
 notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
 notion = Client(auth=notion_token)
 current_date = datetime.now().strftime('%Y-%m-%d')
-df = ef.fund.get_fund_codes('etf')
+df = ef.fund.get_fund_codes('hh')
 
 
 @retry(stop_max_attempt_number=3, wait_fixed=1000)

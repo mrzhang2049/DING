@@ -9,7 +9,6 @@ datetime
 efinance
 retrying
 notion-client
-easyNotion
 tenacity
 
 

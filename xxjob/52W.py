@@ -21,7 +21,7 @@ def send_msg():
     username = "hellozhangxf@qq.com"
     password = "banwshuwomewdebi"
     # 模板路径
-    template_path = 'email_template3.html'
+    template_path = '../email_template3.html'
 
     # 模板参数
     template_vars = {
@@ -50,7 +50,7 @@ def send_msg():
     # 设置SMTP服务器地址、端口和登录凭据
     smtp_server = "smtp.qq.com"
     smtp_port = 465
-    username = "hellozhangxf@qq.com"
+    username = "hello@qq.com"
     password = "banwshuwomewdebi"
     try:
         smtp = smtplib.SMTP_SSL('smtp.qq.com', 465)
@@ -76,7 +76,7 @@ def send_dingtalk(msg):
 
 if __name__ == '__main__':
     num = (int)(sys.argv[1])
-    database_id = '61b85174dbb64557ae4721104bc267ab'
+    database_id = '9b83664c12e443628f669752e55449aa'
     notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
     notion = Client(auth=notion_token)
     parent = {"database_id": database_id, "type": "database_id"}
@@ -101,6 +101,7 @@ if __name__ == '__main__':
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
+            print(item[10])
             if item[10] == item[8]:
                 query_result = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}.get("results")
                 no_of_results = len(query_result)
