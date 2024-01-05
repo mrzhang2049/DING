@@ -101,7 +101,6 @@ if __name__ == '__main__':
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
-            print(item[10])
             if item[10] == item[8]:
                 query_result = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}.get("results")
                 no_of_results = len(query_result)
