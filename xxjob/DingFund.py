@@ -26,28 +26,4 @@ if __name__ == '__main__':
     with open('./txt_dingfund.txt', 'r') as file:
         for item in file:
             baseinfo=ef.fund.get_base_info(item.strip())
-            print(baseinfo)
-            query_result = {"property": "Name", "rich_text": {"contains": f'{item}'}}.get("results")
-            if query_result is None:
-                print('--------------')
-                new_page = {
-                    "Code": {"title": [{"type": "text", "text": {"content":  baseinfo['基金代码']}}]},
-                    "Name": {"rich_text": [{"type": "text", "text": {"content":  baseinfo['基金简称']}}]},
-                    "StartDate": {'type': 'date', 'date': {'start': str( baseinfo['净值更新日期']), 'end': None}},
-                    'StartVal':{'type': 'number', 'number': double(baseinfo['最新净值'])},
-                    'CurrentVal': {'type': 'number', 'number': double(baseinfo['最新净值'])},
-                    "File": {"files": [{"type": "external", "name": "Cover",
-                                              "external": {
-                                                  "url": f"https://j3.dfcfw.com/images/APPFavorNav/big/SYL_3Y/{baseinfo['基金代码']}.png"}}]}
-                }
-                notion.pages.create(parent=parent, properties=new_page)
-                # send_dingtalk(item[0])
-            else:
-                for result in query_result['results']:
-                    page_id = result['id']
-                    number = result.get("properties").get("Number").get("number")
-                    new_page = {
-                        "Number": {"number": number + 1},
-                        "Date": {"date": current_date},
-                    }
-                    notion.pages.update(page_id=page_id, properties=new_page)
+

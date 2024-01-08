@@ -10,7 +10,7 @@ efinance
 retrying
 notion-client
 tenacity
-
+httpx
 
 
 

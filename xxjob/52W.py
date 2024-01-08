@@ -34,12 +34,11 @@ if __name__ == '__main__':
         print(url)
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
-        print(datalist)
         for item in datalist:
             if item[10] == item[8]:
                 query_result = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}.get("results")
                 if query_result is None:
-                    print('--------------')
+                    print(f'{item[0]}')
                     new_page = {
                         "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
                         "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},

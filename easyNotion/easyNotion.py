@@ -4,12 +4,13 @@ import logging
 import os.path
 import random
 import re
-from typing import Dict, overload, Any, List
+from typing import Dict, overload, Any, List, Union
 import requests
 import tenacity
 from tenacity import retry, stop_after_attempt, retry_if_result, retry_if_exception_type, stop_after_delay, \
     wait_exponential
-from .blocksModel import *
+
+from easyNotion.blocksModel import Block, Mention, RichText, LinkPreview, Divider, Column, ColumnList, TableX
 
 
 class easyNotion:
@@ -60,7 +61,6 @@ class easyNotion:
         self.__need_download = kwargs.get('need_download', False)  # 是否下载
         self.download_path = kwargs.get('download_path', '')  # 下载地址
         self.__trust_env = kwargs.get('trust_env', False)  # 是否关闭代理
-
 
         # 网络相关配置
         self.__session = requests.Session()  # session
@@ -312,7 +312,6 @@ class easyNotion:
     def __get_rich_text_content(row: dict) -> Block:
         text_type = row['type']
         all_rich_text = row[text_type]['rich_text']
-
         ret = []
         for rich_text in all_rich_text:
             if rich_text['type'] == 'mention':
@@ -332,7 +331,7 @@ class easyNotion:
     def __get_page_data(self, base_table: json) -> List[Dict[str, str]]:
         table = []
         for original_row in base_table['results']:
-            print(original_row['id']+"___________")
+            print(original_row['id'] + "___________")
             row = {'id': original_row['id']}
 
             rich_text_type = ['paragraph', 'heading_2', 'toggle', 'bulleted_list_item', 'callout']
@@ -418,7 +417,6 @@ class easyNotion:
                         row[col] = ''
                     self.__col_name[col] = 'text'  # 列名称:列类型
                 elif original_row['properties'][col]['type'] == 'checkbox':  # 处理text列
-                    print(col + ">415")
                     text = original_row['properties'][col]['checkbox']
                     if bool(text):
                         row[col] = bool(text)
@@ -577,7 +575,8 @@ class easyNotion:
 
     # 插入页面数据
     def insert_page(self,
-                    blocks: List[Union[Divider, Mention, LinkPreview, RichText, Block]]) -> requests.models.Response:
+                    blocks: List[
+                        Union[Divider, Mention, LinkPreview, RichText, Block, TableX]]) -> requests.models.Response:
         """
         插入页面数据
         :param blocks: 富文本块列表
@@ -591,12 +590,11 @@ class easyNotion:
             }
             temp_payload.update(block.get_payload())
             payload.append(temp_payload)
-
+            print(payload)
         payload = {
             'children': payload
         }
         print(payload)
-        print(601)
         print(self.__baseUrl + 'blocks/' + blocks[0].parent_id + '/children')
         return self.__send_request(method="PATCH",
                                    url=self.__baseUrl + 'blocks/' + blocks[0].parent_id + '/children',

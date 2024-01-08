@@ -1,9 +1,7 @@
 from typing import List, Union
+import json
 
 
-
-
-# 分割线
 class Divider:
     def __init__(self, id: str, parent_id: str):
         self.id = id
@@ -18,6 +16,23 @@ class Divider:
         return {
             'type': 'divider',
             'divider': {}
+        }
+
+
+class Image:
+    def __init__(self, parent_id: str, url: str):
+        self.parent_id = parent_id
+        self.text_type = 'image'
+        self.url = url
+
+    def get_payload(self):
+        return {
+            "image": {
+                "type": "external",
+                "external": {
+                    "url": self.url
+                }
+            }
         }
 
 
@@ -54,9 +69,6 @@ class LinkPreview:
         self.url = url
         self.parent_id = parent_id
         self.text_type = 'link_preview'
-
-    def __repr__(self):
-        return f'github大图:{self.url}'
 
     def get_payload(self):
         return {
@@ -106,23 +118,107 @@ class RichText:
 
         return ret
 
+
 # 列列表
-class ColumnList:
-    def __init__(self, id: str, parent_id: str,  content: List[Union[Divider, Mention, LinkPreview, RichText]]):
+
+
+class TableX:
+    def __init__(self, id: str, jsondata: [], text_type: str, parent_id: str, ):
+        self.id = id
+        self.jsondata = jsondata
+        self.text_type = text_type
         self.id = id
         self.parent_id = parent_id
-        self.text_type = 'column_list'
+
+    def get_payload(self):
+        table_rows = []
+        for item in self.jsondata:
+            cells = []
+            num_keys = len(item.keys())
+            print(item["Color"])
+            for key, value in item.items():
+                if key == "Color":
+                    continue
+                cells.append(
+                    [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": value,
+                            },
+                            "annotations": {
+                                "bold": False,
+                                "italic": False,
+                                "strikethrough": False,
+                                "underline": False,
+                                "code": False,
+                                "color": item["Color"] if "Color" in item else "default"
+                            },
+                            "plain_text": value,
+                        }
+                    ])
+
+            row = {
+                "type": "table_row",
+                "table_row": {"cells": cells}
+            }
+            table_rows.append(row)
+        return {
+            "type": "table",
+            "table": {
+                "table_width": num_keys-1 if "Color" in item else num_keys,
+                "has_column_header": False,
+                "has_row_header": False,
+                "children": table_rows
+            }
+        }
+
+
+class Column:
+    def __init__(self, id: str, parent_id: str):
+        self.id = id
+        self.parent_id = parent_id
+        self.text_type = 'column'
 
     @staticmethod
     def get_payload():
         return {
-            'type': 'column_list',
-            'column_list': {}
+            'type': 'column',
+            'column': {}
         }
+
+
+class ColumnList:
+    def __init__(self, id: str, text_type: str, parent_id: str, content: List[Union[Image, TableX]]):
+        self.id = id
+        self.parent_id = parent_id
+        self.text_type = 'column_list'
+        self.text_type = text_type
+        self.content = content
+
+    def get_payload(self):
+        columns = []
+        for i in self.content:
+            print(i.get_payload())
+            columns.append({
+                "type": "column",
+                "column": {
+                    "children": [i.get_payload()]}
+            })
+        print(columns)
+        ret = {
+            "type": "column_list",
+            "column_list": {
+                "children": columns
+            }
+        }
+        print(ret)
+        return ret
+
 
 # 块类
 class Block:
-    def __init__(self, content: List[Union[Divider, Mention, LinkPreview, RichText, ColumnList]]):
+    def __init__(self, content: List[Union[Divider, Mention, LinkPreview, RichText, Column, TableX]]):
         """
         初始化函数
         :param content: 富文本对象内容
@@ -139,17 +235,3 @@ class Block:
             ret.update(i.get_payload())
         return ret
 # 列
-class Column:
-    def __init__(self, id: str, parent_id: str):
-        self.id = id
-        self.parent_id = parent_id
-        self.text_type = 'column'
-
-    @staticmethod
-    def get_payload():
-        return {
-            'type': 'column',
-            'column': {}
-        }
-
-

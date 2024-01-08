@@ -7,11 +7,10 @@
 from easyNotion import easyNotion
 from pprint import pprint
 from typing import List, Union
-
-from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block
+from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
 
 db = easyNotion('c4db279645344510acb15d556caffce1', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ')
-dbPage = easyNotion('c4db279645344510acb15d556caffce1', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
+dbPage = easyNotion('adca7e5f3cc44781b42d972303d8bf35', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
                     is_page=True)
 
 # 获取全部数据表
@@ -33,16 +32,33 @@ dbPage = easyNotion('c4db279645344510acb15d556caffce1', 'secret_j4748C1PwOII5JWc
 #         "MONTH": 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
 #
 #     })
+
+jsondata = [{
+    "Name": 'cells',
+    "Code": "cells",
+    "Color": "red"
+}, {
+    "Name": 'cells',
+    "Code": "cells",
+    "Color": "green"
+}]
 content_blocks = [
-    LinkPreview(
-        url='https://example.com',
-        id='35695',
-        parent_id='4e3310016cb3427abdd362eaca7eec31'
-    ), LinkPreview(
-        url='https://example.com',
-        id='35695',
-        parent_id='4e3310016cb3427abdd362eaca7eec31'
-    )
+    TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35"),
+    TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35"),
+    ColumnList(parent_id="adca7e5f3cc44781b42d972303d8bf35", text_type="column_list",
+               id='',
+               content=[
+                   TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35")
+                   , TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35")
+               ]),
+    ColumnList(parent_id="adca7e5f3cc44781b42d972303d8bf35", text_type="column_list",
+               id='',
+               content=[
+                   Image(url="https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg",
+                         parent_id="adca7e5f3cc44781b42d972303d8bf35")
+                   , Image(url="https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg",
+                           parent_id="adca7e5f3cc44781b42d972303d8bf35")
+               ])
 ]
 dbPage.insert_page(content_blocks)
 
