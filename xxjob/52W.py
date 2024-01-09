@@ -37,6 +37,7 @@ if __name__ == '__main__':
             if item[10] == item[8]:
                 filter = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}
                 query_result = notion.databases.query(database_id=database_id, filter=filter).get("results")
+                print(query_result)
                 length = len(query_result)
                 if length == 0:
                     new_page = {
@@ -51,7 +52,8 @@ if __name__ == '__main__':
                     notion.pages.create(parent=parent, properties=new_page)
                     # send_dingtalk(item[0])
                 else:
-                    for result in query_result['results']:
+                    print()
+                    for result in query_result:
                         page_id = result['id']
                         print(page_id)
                         number = result.get("properties").get("Number").get("number")
