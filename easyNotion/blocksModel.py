@@ -92,7 +92,16 @@ class RichText:
         :param text_type: 富文本类型
         :param id: 富文本id
         """
-        self.annotations = annotations if annotations else {}
+
+        default_annotations = {
+            "bold": True,
+            "italic": False,
+            "strikethrough": False,
+            "underline": False,
+            "code": False,
+            "color": "red"
+        }
+        self.annotations = annotations if annotations else default_annotations
         self.href = href
         self.plain_text = plain_text if plain_text else ' '
         self.text_type = text_type
@@ -104,14 +113,21 @@ class RichText:
         return (self.plain_text if self.plain_text != ' ' else self.text_type) + (self.href if self.href else '')
 
     def get_payload(self):
-        ret = {self.text_type: {
-            'rich_text': [{
-                'plain_text': self.plain_text,
-                'text': {'content': self.plain_text},
-                'annotations': self.annotations,
-            }]
-        }}
-
+        ret = {
+            self.text_type: {
+                'rich_text': [{
+                    'plain_text': self.plain_text,
+                    'text': {'content': self.plain_text},
+                    'annotations': self.annotations,
+                }] ###只有Callout有
+            }
+        }
+        if self.text_type == "callout":
+            ret[self.text_type].update({"icon": {
+                "emoji": "⭐"
+            },
+                "color": "gray_background"
+            })
         if self.href:
             ret[self.text_type]['rich_text'][0]['href'] = self.href
             ret[self.text_type]['rich_text'][0]['text']['link'] = {'url': self.href}
@@ -123,10 +139,10 @@ class RichText:
 
 
 class TableX:
-    def __init__(self, id: str, jsondata: [], text_type: str, parent_id: str, ):
+    def __init__(self, id: str, jsondata: [], parent_id: str, ):
         self.id = id
         self.jsondata = jsondata
-        self.text_type = text_type
+        self.text_type = "table"
         self.id = id
         self.parent_id = parent_id
 
@@ -166,7 +182,7 @@ class TableX:
         return {
             "type": "table",
             "table": {
-                "table_width": num_keys-1 if "Color" in item else num_keys,
+                "table_width": num_keys - 1 if "Color" in item else num_keys,
                 "has_column_header": False,
                 "has_row_header": False,
                 "children": table_rows
@@ -189,11 +205,10 @@ class Column:
 
 
 class ColumnList:
-    def __init__(self, id: str, text_type: str, parent_id: str, content: List[Union[Image, TableX]]):
+    def __init__(self, id: str, parent_id: str, content: List[Union[Image, TableX]]):
         self.id = id
         self.parent_id = parent_id
         self.text_type = 'column_list'
-        self.text_type = text_type
         self.content = content
 
     def get_payload(self):

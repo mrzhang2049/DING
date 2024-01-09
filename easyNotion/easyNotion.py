@@ -9,7 +9,7 @@ import requests
 import tenacity
 from tenacity import retry, stop_after_attempt, retry_if_result, retry_if_exception_type, stop_after_delay, \
     wait_exponential
-
+import httpx
 from easyNotion.blocksModel import Block, Mention, RichText, LinkPreview, Divider, Column, ColumnList, TableX
 
 
@@ -594,11 +594,42 @@ class easyNotion:
         payload = {
             'children': payload
         }
-        print(payload)
         print(self.__baseUrl + 'blocks/' + blocks[0].parent_id + '/children')
         return self.__send_request(method="PATCH",
                                    url=self.__baseUrl + 'blocks/' + blocks[0].parent_id + '/children',
                                    json=payload)
+
+    def create_page(self, title: str, parent_id: str) -> str:
+        """
+        插入页面数据
+        :param blocks: 富文本块列表
+        """
+        payload = {
+            "parent": {
+                "page_id": parent_id
+            },
+            "properties": {
+                "title": {
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": title
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        client = httpx.Client(timeout=10.0, headers=
+        {
+            "Notion-Version": "2022-06-28",
+            "Authorization": "Bearer secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ",
+            "Content-Type": "application/json"
+        })
+        response = client.post("https://api.notion.com/v1/pages", json=payload)
+        data=response.json()
+        return data["id"]
 
     # 更新数据
     def update(self, update_data: Dict[str, str], update_condition: Dict[str, Union[str, re.Pattern]]) -> \

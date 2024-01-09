@@ -9,7 +9,7 @@ from pprint import pprint
 from typing import List, Union
 from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
 
-db = easyNotion('c4db279645344510acb15d556caffce1', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ')
+# db = easyNotion('c4db279645344510acb15d556caffce1', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ')
 dbPage = easyNotion('adca7e5f3cc44781b42d972303d8bf35', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
                     is_page=True)
 
@@ -33,7 +33,7 @@ dbPage = easyNotion('adca7e5f3cc44781b42d972303d8bf35', 'secret_j4748C1PwOII5JWc
 #
 #     })
 
-jsondata = [{
+json_data = [{
     "Name": 'cells',
     "Code": "cells",
     "Color": "red"
@@ -42,30 +42,38 @@ jsondata = [{
     "Code": "cells",
     "Color": "green"
 }]
+ #= "adca7e5f3cc44781b42d972303d8bf35"
+
+parent_id=dbPage.create_page(title="新年快乐", parent_id="5a055a5ef33c4a2eac7e6db00d3ce64c")
+print(parent_id)
+
+
 content_blocks = [
-    TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35"),
-    TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35"),
-    ColumnList(parent_id="adca7e5f3cc44781b42d972303d8bf35", text_type="column_list",
+    TableX("", json_data, parent_id),
+    TableX("", json_data, parent_id),
+    ColumnList(parent_id="adca7e5f3cc44781b42d972303d8bf35",
                id='',
                content=[
-                   TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35")
-                   , TableX(jsondata=jsondata, text_type="table", id="", parent_id="adca7e5f3cc44781b42d972303d8bf35")
+                   TableX("", json_data, parent_id),
+                   TableX("", json_data, parent_id)
                ]),
-    ColumnList(parent_id="adca7e5f3cc44781b42d972303d8bf35", text_type="column_list",
-               id='',
+    ColumnList('', parent_id,
                content=[
-                   Image(url="https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg",
-                         parent_id="adca7e5f3cc44781b42d972303d8bf35")
-                   , Image(url="https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg",
-                           parent_id="adca7e5f3cc44781b42d972303d8bf35")
-               ])
+                   Image(parent_id,
+                         "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg"),
+                   Image(parent_id,
+                         "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg")
+               ]),
+    RichText(text_type="paragraph", id="", parent_id=parent_id, plain_text="paragraph" ),
+    RichText(text_type="quote", id="", parent_id=parent_id, plain_text="quote#@@@@@@@"),
+    RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout", annotations={"color": "red"})
 ]
 dbPage.insert_page(content_blocks)
 
-# 更新指定的行
-res = db.update({'Name': 'new_value'}, {'Name': '张三'})
-pprint(res)
-
-# 删除指定的行
-res = db.delete({'Name': 'new_value'})
+# # 更新指定的行
+# res = db.update({'Name': 'new_value'}, {'Name': '张三'})
 # pprint(res)
+# https://www.notion.so/FIND-5a055a5ef33c4a2eac7e6db00d3ce64c?pvs=4
+# # 删除指定的行
+# res = db.delete({'Name': 'new_value'})
+# # pprint(res)
