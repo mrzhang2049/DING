@@ -31,28 +31,29 @@ if __name__ == '__main__':
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
         }
         url = f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time&cursor={i}';
-        print(url)
         res = session.get(url, headers=headers).json()
         datalist = res['data']['candle']
         for item in datalist:
             if item[10] == item[8]:
-                query_result = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}.get("results")
-                if query_result is None:
-                    print(f'{item[0]}')
+                filter = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}
+                query_result = notion.databases.query(database_id=database_id, filter=filter).get("results")
+                length = len(query_result)
+                if length == 0:
                     new_page = {
                         "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
                         "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},
                         "Date": {'type': 'date', 'date': {'start': str(current_date), 'end': None}},
                         "Number": {"number": 0},
                         "FilesCover": {"files": [{"type": "external", "name": "Cover",
-                                             "external": {
-                                                 "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
+                                                  "external": {
+                                                      "url": "https://gw.alipayobjects.com/zos/bmw-prod/1c363c0b-17c6-4b00-881a-bc774df1ebeb.svg"}}]}
                     }
                     notion.pages.create(parent=parent, properties=new_page)
-                    #send_dingtalk(item[0])
+                    # send_dingtalk(item[0])
                 else:
                     for result in query_result['results']:
                         page_id = result['id']
+                        print(page_id)
                         number = result.get("properties").get("Number").get("number")
                         new_page = {
                             "Number": {"number": number + 1},
