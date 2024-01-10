@@ -37,7 +37,6 @@ if __name__ == '__main__':
             if item[10] == item[8]:
                 filter = {"property": "Name", "rich_text": {"contains": f'{item[0]}'}}
                 query_result = notion.databases.query(database_id=database_id, filter=filter).get("results")
-                print(query_result)
                 length = len(query_result)
                 if length == 0:
                     new_page = {
