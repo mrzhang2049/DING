@@ -13,11 +13,6 @@ tenacity
 httpx
 pygal
 pyecharts
-cairosvg
-lxml
-tinycss
-cairo-2
-libcairo-2
-cairo
+
 
 
