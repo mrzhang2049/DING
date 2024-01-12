@@ -23,8 +23,8 @@ if __name__ == '__main__':
     session = requests.session()
     current_date = datetime.now().strftime('%Y-%m-%d')
     filename = f'./document_{current_date}.txt'
-    with open(filename, 'w+') as file:
-        file.write(datetime.now().strftime('%Y-%m-%d'))
+    # with open(filename, 'w+') as file:
+    #     file.write(datetime.now().strftime('%Y-%m-%d'))
     while num * 8 >= i >= (num - 1) * 8:
         i = i + 1
         headers = {
