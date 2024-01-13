@@ -213,20 +213,19 @@ class ColumnList:
     def get_payload(self):
         columns = []
         for i in self.content:
-            print(i.get_payload())
             columns.append({
                 "type": "column",
                 "column": {
                     "children": [i.get_payload()]}
             })
-        print(columns)
+
         ret = {
             "type": "column_list",
             "column_list": {
                 "children": columns
             }
         }
-        print(ret)
+
         return ret
 
 

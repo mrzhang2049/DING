@@ -210,7 +210,7 @@ class easyNotion:
                retry_error_callback=retry_error)  # 结束重试前行为
         def send_request(*args, **kwargs):
             get_random_requests_headers()  # 更新请求代理
-            print(self.is_page)
+
             return self.__session.request(*args, **kwargs, timeout=self.timeout, headers=headers)
 
         return send_request(*args, **kwargs)
@@ -298,10 +298,9 @@ class easyNotion:
         :return: 成功返回True
         """
         # 从原始表中获得数据
-        print(self.is_page)
-        print(300)
+
         if self.is_page:
-            print('###')
+
             self.__table.extend(self.__get_page_data(base_table))
         else:
             self.__table.extend(self.__get_database_data(base_table))
@@ -331,7 +330,7 @@ class easyNotion:
     def __get_page_data(self, base_table: json) -> List[Dict[str, str]]:
         table = []
         for original_row in base_table['results']:
-            print(original_row['id'] + "___________")
+
             row = {'id': original_row['id']}
 
             rich_text_type = ['paragraph', 'heading_2', 'toggle', 'bulleted_list_item', 'callout']
@@ -425,7 +424,7 @@ class easyNotion:
                     self.__col_name[col] = 'checkbox'  # 列名称:列类型
                 elif original_row['properties'][col]['type'] == 'files':  # 处理text列
                     text = original_row['properties'][col]['files']
-                    print(text)
+
                     if len(text) != 0:
                         row[col] = original_row['properties'][col]['files'][0]["external"]["url"]
                     else:
@@ -543,8 +542,7 @@ class easyNotion:
         if len(col_names) == 0:
             self.__get_database_info()
             col_names = self.get_col_name()
-        print(col_names)
-        print(data)
+
         # 遍历全部列
         for col_name in col_names:
             if col_name in data:  # 若已指定数据则插入指定数据
@@ -590,11 +588,10 @@ class easyNotion:
             }
             temp_payload.update(block.get_payload())
             payload.append(temp_payload)
-            print(payload)
+
         payload = {
             'children': payload
         }
-        print(self.__baseUrl + 'blocks/' + blocks[0].parent_id + '/children')
         return self.__send_request(method="PATCH",
                                    url=self.__baseUrl + 'blocks/' + blocks[0].parent_id + '/children',
                                    json=payload)
@@ -731,7 +728,7 @@ class easyNotion:
                 }
             }
         elif col_names[col_name] == 'files':  # url类型
-            print(content)
+
             return {col_name: {"files": [{"type": "external", "name": "Cover",
                                           "external": {
                                               "url": str(content)}}]}}
