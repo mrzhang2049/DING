@@ -1,48 +1,50 @@
-# encoding=utf-8
-from datetime import datetime
+import json
+from easyNotion import easyNotion
+import efinance as ef
 import httpx
+import pandas as pd
+from pprint import pprint
+from typing import List, Union
+from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
+dbPage = easyNotion('d5c62b873aef4b77afc2e7870de97e38', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
+                    is_page=True)
+# 将DataFrame转换为JSON字符串
+parent_id = dbPage.create_page(title="", parent_id="d5c62b873aef4b77afc2e7870de97e38")
+with open('./txt_dingfund.txt', 'r') as file:
+    for item in file:
+        baseinfo = ef.fund.get_base_info(item.strip())
+        df1 = ef.fund.get_quote_history(baseinfo['基金代码'], 10)
+        df1["单位净值"] = [str(ite) for ite in df1["单位净值"]]
+        df1["Color"] = ["gray" if ite > 0 else 'red' for ite in df1["涨跌幅"]]
+        df1["涨跌幅"] = [str(ite) for ite in df1["涨跌幅"]]
+        json_data = json.loads(df1.to_json(orient='records'))
+        for item in json_data:
+            del item["累计净值"]
+        json.dumps(json_data)
+        content_blocks = [
+            ColumnList(parent_id=parent_id,
+                       id='',
+                       content=[
+                           TableX("", json_data[:5], parent_id),
+                           TableX("", json_data[5:], parent_id)
+                       ]),
+            ColumnList('', parent_id,
+                       content=[
+                           Image(parent_id,
+                                 "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg"),
+                           Image(parent_id,
+                                 "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg")
+                       ]),
+            RichText(text_type="paragraph", id="", parent_id=parent_id, plain_text="paragraph" ),
+            RichText(text_type="quote", id="", parent_id=parent_id, plain_text="quote#@@@@@@@"),
+            RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout", annotations={"color": "red"})
+        ]
+        dbPage.insert_page(content_blocks)
 
-if __name__ == '__main__':
-    client = httpx.Client(timeout=10.0, headers=
-    {
-        "Notion-Version": "2022-06-28",
-        "Authorization": "Bearer secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ",
-        "Content-Type": "application/json"
-    })
-    database_id = '56641c6587cd400fb9037cf86a51d5d9'
-    notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
-    current_date = datetime.now().strftime('%Y-%m-%d')
-    filename = f'./document_{current_date}.txt'
-    with open('./txt_dingfund.txt', 'r') as file:
-        for item in file:
-            data = {"parent": {
-                "page_id": "5a055a5ef33c4a2eac7e6db00d3ce64c"
-            }, "properties": {
-                "title": {
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "A note from your pals at Notion"
-                            }
-                        }
-                    ]
-                }
-            }, "children": []}
-
-        block_1= {
-            "object": "block",
-            "type": "paragraph",
-            "paragraph": {
-                "rich_text": [
-                    {
-                        "type": "text",
-                        "text": {
-                            "content": "You made this page using the Notion API. Pretty cool, huh? We hope you enjoy building with us."
-                        }
-                    }
-                ]
-            }
-        };
-        data["children"].append(block_1)
-        response = client.post("https://api.notion.com/v1/pages", json=data)
+# # 更新指定的行
+# res = db.update({'Name': 'new_value'}, {'Name': '张三'})
+# pprint(res)
+# https://www.notion.so/FIND-5a055a5ef33c4a2eac7e6db00d3ce64c?pvs=4
+# # 删除指定的行
+# res = db.delete({'Name': 'new_value'})
+# # pprint(res)

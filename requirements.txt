@@ -13,6 +13,6 @@ tenacity
 httpx
 pygal
 pyecharts
-
+pandas
 
 

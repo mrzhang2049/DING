@@ -10,7 +10,8 @@ notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
 notion = Client(auth=notion_token)
 current_date = datetime.now().strftime('%Y-%m-%d')
 df = ef.fund.get_fund_codes('hh')
-
+# with open(filename, 'w+') as file:
+#     file.write(datetime.now().strftime('%Y-%m-%d'))
 
 @retry(stop_max_attempt_number=3, wait_fixed=1000)
 def some_unreliable_function(parent,properties):

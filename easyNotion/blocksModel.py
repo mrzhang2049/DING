@@ -151,7 +151,6 @@ class TableX:
         for item in self.jsondata:
             cells = []
             num_keys = len(item.keys())
-            print(item["Color"])
             for key, value in item.items():
                 if key == "Color":
                     continue
