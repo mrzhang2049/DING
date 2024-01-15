@@ -23,7 +23,16 @@ with open('./txt_dingfund.txt', 'r') as file:
         for item in json_data:
             del item["累计净值"]
         json.dumps(json_data)
+
+
+
+
+
+
+
+        
         content_blocks = [
+            RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",    annotations={"color": "red"}),
             ColumnList(parent_id=parent_id,
                        id='',
                        content=[
@@ -31,9 +40,8 @@ with open('./txt_dingfund.txt', 'r') as file:
                            Image(parent_id,
                                  "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg"),
                        ]),
-            RichText(text_type="paragraph", id="", parent_id=parent_id, plain_text="paragraph" ),
-            RichText(text_type="quote", id="", parent_id=parent_id, plain_text="quote#@@@@@@@"),
-            RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout", annotations={"color": "red"})
+            # RichText(text_type="paragraph", id="", parent_id=parent_id, plain_text="paragraph" ),
+            # RichText(text_type="quote", id="", parent_id=parent_id, plain_text="quote#@@@@@@@"),
         ]
         dbPage.insert_page(content_blocks)
 
