@@ -30,7 +30,7 @@ with open('./txt_dingfund.txt', 'r') as file:
 
 
 
-        
+
         content_blocks = [
             RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",    annotations={"color": "red"}),
             ColumnList(parent_id=parent_id,
