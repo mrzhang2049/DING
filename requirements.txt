@@ -14,5 +14,6 @@ httpx
 pygal
 pyecharts
 pandas
+holidays
 
 

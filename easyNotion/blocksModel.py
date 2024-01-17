@@ -119,7 +119,7 @@ class RichText:
                     'plain_text': self.plain_text,
                     'text': {'content': self.plain_text},
                     'annotations': self.annotations,
-                }] ###只有Callout有
+                }]  ###只有Callout有
             }
         }
         if self.text_type == "callout":
@@ -182,6 +182,55 @@ class TableX:
             "type": "table",
             "table": {
                 "table_width": num_keys - 1 if "Color" in item else num_keys,
+                "has_column_header": False,
+                "has_row_header": False,
+                "children": table_rows
+            }
+        }
+
+
+class TableXArray:
+    def __init__(self, id: str, arraydata: [], parent_id: str, ):
+        self.id = id
+        self.jsondata = arraydata
+        self.text_type = "table"
+        self.id = id
+        self.parent_id = parent_id
+
+    def get_payload(self):
+        table_rows = []
+        for item in self.jsondata:
+            cells = []
+            for value in item:
+                num_keys = len(item)
+                cells.append(
+                    [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": value,
+                            },
+                            "annotations": {
+                                "bold": False,
+                                "italic": False,
+                                "strikethrough": False,
+                                "underline": False,
+                                "code": False,
+                                "color": 'black' if value > 0 else "default"
+                            },
+                            "plain_text": value,
+                        }
+                    ])
+
+            row = {
+                "type": "table_row",
+                "table_row": {"cells": cells}
+            }
+            table_rows.append(row)
+        return {
+            "type": "table",
+            "table": {
+                "table_width": num_keys - 1 ,
                 "has_column_header": False,
                 "has_row_header": False,
                 "children": table_rows
