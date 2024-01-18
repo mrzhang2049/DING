@@ -1,5 +1,5 @@
 import json
-import easyNotion
+from easyNotion import easyNotion
 import efinance as ef
 import httpx
 from datetime import datetime, timedelta
@@ -7,6 +7,8 @@ import pandas as pd
 from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
 from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 import holidays
+import sys
+
 
 def dingpush(jsonData):
     webhook = ('https://oapi.dingtalk.com/robot/send?access_token'
@@ -17,6 +19,8 @@ def dingpush(jsonData):
     for itm in jsonData:
         text_str = text_str + f"[{itm["Name"]}](http://coding.net)\n\n\n"
     xiaoding.send_markdown(title='提醒', text=text_str, is_at_all=True)
+
+
 def get_week_start_end_date(year, week_num):
     cn_holidays = holidays.CN()
     start_of_week = datetime.strptime(f'{year}-W{week_num}-1', '%Y-W%W-%w')
@@ -30,15 +34,22 @@ def get_week_start_end_date(year, week_num):
         if now.hour < 18:
             last_work_day = last_work_day + timedelta(days=-1)
     return first_work_day.date(), last_work_day.date()
+
+
 def calculate_percentage(old, new):
     if new == 0 or old == 0:
         return 0
     # 计算百分比并格式化输出为两位小数
     percentage = ((new - old) / old) * 100
     return round(percentage, 2)
+
+
 if __name__ == '__main__':
-    dbPage = easyNotion.easyNotion('d5c62b873aef4b77afc2e7870de97e38', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
-                        is_page=True)
+
+    print(sys.path)
+    dbPage = easyNotion.easyNotion('d5c62b873aef4b77afc2e7870de97e38',
+                                   'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
+                                   is_page=True)
     print(dbPage)
     current_date = datetime.now().strftime('%Y-%m-%d')
     now = datetime.now()
@@ -76,32 +87,32 @@ if __name__ == '__main__':
             jsonArray.append(itm)
 
     content_blocks = [
-    RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
-                         annotations={"color": "red"}),
-                TableX("", jsonArray, parent_id),
-            ]
+        RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
+                 annotations={"color": "red"}),
+        TableX("", jsonArray, parent_id),
+    ]
     dbPage.insert_page(content_blocks)
-            # df1["单位净值"] = [str(ite) for ite in df1["单位净值"]]
-            # df1["Color"] = ["gray" if ite > 0 else 'red' for ite in df1["涨跌幅"]]
-            # df1["涨跌幅"] = [str(ite) for ite in df1["涨跌幅"]]
-            # json_data = json.loads(df1.to_json(orient='records'))
-            # for item in json_data:
-            #     del item["累计净值"]
-            # json.dumps(json_data)
-            # content_blocks = [
-            #     ColumnList(parent_id=parent_id,
-            #                id='',
-            #                content=[
-            #                    TableX("", json_data[:10], parent_id),
-            #                    Image(parent_id,
-            #                          "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg"),
-            #                ]),
-            #     RichText(text_type="paragraph", id="", parent_id=parent_id, plain_text="paragraph"),
-            #     RichText(text_type="quote", id="", parent_id=parent_id, plain_text="quote#@@@@@@@"),
-            #     RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
-            #              annotations={"color": "red"})
-            # ]
-            # dbPage.insert_page(content_blocks)
+    # df1["单位净值"] = [str(ite) for ite in df1["单位净值"]]
+    # df1["Color"] = ["gray" if ite > 0 else 'red' for ite in df1["涨跌幅"]]
+    # df1["涨跌幅"] = [str(ite) for ite in df1["涨跌幅"]]
+    # json_data = json.loads(df1.to_json(orient='records'))
+    # for item in json_data:
+    #     del item["累计净值"]
+    # json.dumps(json_data)
+    # content_blocks = [
+    #     ColumnList(parent_id=parent_id,
+    #                id='',
+    #                content=[
+    #                    TableX("", json_data[:10], parent_id),
+    #                    Image(parent_id,
+    #                          "https://gw.alipayobjects.com/zos/bmw-prod/b874caa9-4458-412a-9ac6-a61486180a62.svg"),
+    #                ]),
+    #     RichText(text_type="paragraph", id="", parent_id=parent_id, plain_text="paragraph"),
+    #     RichText(text_type="quote", id="", parent_id=parent_id, plain_text="quote#@@@@@@@"),
+    #     RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
+    #              annotations={"color": "red"})
+    # ]
+    # dbPage.insert_page(content_blocks)
 
     # # 更新指定的行
     # res = db.update({'Name': 'new_value'}, {'Name': '张三'})
