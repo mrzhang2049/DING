@@ -58,7 +58,7 @@ if __name__ == '__main__':
                         page_id = result['id']
                         number = result.get("properties").get("Number").get("number")
                         new_page = {
-                            "Number": {"number": number + 1},
-                            "Date": {"date": current_date},
+                            "Number": {"number": 1},
+                            "Date": {'type': 'date', 'date': {'start': str(current_date), 'end': None}},
                         }
                         notion.pages.update(page_id=page_id, properties=new_page)
