@@ -9,6 +9,8 @@ from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 import holidays
 import sys
 
+sys.path.append("..")
+
 
 def dingpush(jsonData):
     webhook = ('https://oapi.dingtalk.com/robot/send?access_token'
