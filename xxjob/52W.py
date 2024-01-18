@@ -53,10 +53,9 @@ if __name__ == '__main__':
                     notion.pages.create(parent=parent, properties=new_page)
                     # send_dingtalk(item[0])
                 else:
-                    print()
+                    print(f'{item[0]}_________#######################__________')
                     for result in query_result:
                         page_id = result['id']
-                        print(page_id)
                         number = result.get("properties").get("Number").get("number")
                         new_page = {
                             "Number": {"number": number + 1},
