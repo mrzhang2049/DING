@@ -1,15 +1,10 @@
 # encoding=utf-8
-import sys
 import random
-import smtplib
-import requests
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from jinja2 import Template
-from dingtalkchatbot.chatbot import DingtalkChatbot
-from datetime import datetime
 import time
+from datetime import datetime
+
 import efinance as ef
+import requests
 from notion_client import Client
 from numpy import double
 

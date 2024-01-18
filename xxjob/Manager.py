@@ -3,10 +3,7 @@ import easyNotion
 import efinance as ef
 import httpx
 from datetime import datetime, timedelta
-import calendar
 import pandas as pd
-from pprint import pprint
-from typing import List, Union
 from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
 from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 import holidays
@@ -40,7 +37,7 @@ def calculate_percentage(old, new):
     percentage = ((new - old) / old) * 100
     return round(percentage, 2)
 if __name__ == '__main__':
-    dbPage = easyNotion('d5c62b873aef4b77afc2e7870de97e38', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
+    dbPage = easyNotion.easyNotion('d5c62b873aef4b77afc2e7870de97e38', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
                         is_page=True)
     print(dbPage)
     current_date = datetime.now().strftime('%Y-%m-%d')
