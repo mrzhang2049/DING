@@ -1,4 +1,4 @@
-name: 52W
+name: Manager
 on:
   push:
   schedule:
