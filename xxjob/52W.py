@@ -9,7 +9,7 @@ from dingtalkchatbot.chatbot import DingtalkChatbot
 from datetime import datetime
 import time
 from notion_client import Client
-
+import httpx
 if __name__ == '__main__':
     num = (int)(sys.argv[1])
     database_id = '9b83664c12e443628f669752e55449aa'
@@ -18,9 +18,8 @@ if __name__ == '__main__':
     parent = {"database_id": database_id, "type": "database_id"}
 
     i = (num - 1) * 8
-    random_number = random.random()
-    time.sleep(random_number)
-    session = requests.session()
+    # random_number = random.random()
+    # time.sleep(random_number)
     current_date = datetime.now().strftime('%Y-%m-%d')
     filename = f'./document_{current_date}.txt'
     # with open(filename, 'w+') as file:
@@ -30,8 +29,11 @@ if __name__ == '__main__':
         headers = {
             'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
         }
-        url = f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time&cursor={i}';
-        res = session.get(url, headers=headers).json()
+        url = (f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field'
+               f'=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change'
+               f'%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time'
+               f'&cursor={i}')
+        res = httpx.get(url, headers=headers,verify=False).json()
         datalist = res['data']['candle']
         for item in datalist:
             if item[10] == item[8]:

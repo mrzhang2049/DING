@@ -21,7 +21,7 @@ jobs:
       with:
         python-version: '3.x'
         architecture: 'x64'
-    - run: pip install -r ./requirements.txt && python ./xxjob/DingFund.py
+    - run: pip install -r ./requirements.txt && python ./xxjob/Manager.py
 
 
 

@@ -11,7 +11,6 @@ from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Bloc
 from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 import holidays
 
-
 def dingpush(jsonData):
     webhook = ('https://oapi.dingtalk.com/robot/send?access_token'
                '=dd9371044f8fa37f87d0e2d6aa7779e9e0fe5726fa37d512d07c153829a526ab')
@@ -34,20 +33,15 @@ def get_week_start_end_date(year, week_num):
         if now.hour < 18:
             last_work_day = last_work_day + timedelta(days=-1)
     return first_work_day.date(), last_work_day.date()
-
-
 def calculate_percentage(old, new):
     if new == 0 or old == 0:
         return 0
     # 计算百分比并格式化输出为两位小数
     percentage = ((new - old) / old) * 100
     return round(percentage, 2)
-
-
 if __name__ == '__main__':
     dbPage = easyNotion('d5c62b873aef4b77afc2e7870de97e38', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
                         is_page=True)
-
     print(dbPage)
     current_date = datetime.now().strftime('%Y-%m-%d')
     now = datetime.now()
@@ -83,13 +77,13 @@ if __name__ == '__main__':
                 else:
                     itm.update({f'{i}Week': f'{0:.2f}%'})
             jsonArray.append(itm)
-            content_blocks = [
-                RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
+
+    content_blocks = [
+    RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
                          annotations={"color": "red"}),
                 TableX("", jsonArray, parent_id),
             ]
-            dbPage.insert_page(content_blocks)
-
+    dbPage.insert_page(content_blocks)
             # df1["单位净值"] = [str(ite) for ite in df1["单位净值"]]
             # df1["Color"] = ["gray" if ite > 0 else 'red' for ite in df1["涨跌幅"]]
             # df1["涨跌幅"] = [str(ite) for ite in df1["涨跌幅"]]
