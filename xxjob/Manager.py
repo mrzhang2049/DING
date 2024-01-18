@@ -1,5 +1,5 @@
 import json
-from easyNotion import easyNotion
+import easyNotion
 import efinance as ef
 import httpx
 from datetime import datetime, timedelta
