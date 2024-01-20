@@ -1,13 +1,12 @@
 import efinance as ef
 from datetime import datetime, timedelta
 import pandas as pd
-from xxjob.blocksModel import RichText, TableX
+from blocksModel import RichText, TableX
 from dingtalkchatbot.chatbot import DingtalkChatbot
 import holidays
 import copy
 from decimal import Decimal
-
-from xxjob.easyNotion import easyNotion
+from easyNotion import easyNotion
 
 
 def dingpush(jsondataArray):

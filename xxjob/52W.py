@@ -37,7 +37,7 @@ if __name__ == '__main__':
                 if length == 0:
                     new_page = {
                         "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
-                        "Code": {"title": [{"text": {"content": f'{item[1]}'}}]},
+                        "Code": {"title": [{"type": "text", "text": {"content": f'{item[1]}'}}]},
                         "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},
                         "Date": {'type': 'date', 'date': {'start': str(current_date), 'end': None}},
                         "Number": {"number": 0},
