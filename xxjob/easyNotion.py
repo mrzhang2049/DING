@@ -7,10 +7,9 @@ import re
 from typing import Dict, overload, Any, List, Union
 import requests
 import tenacity
-from tenacity import retry, stop_after_attempt, retry_if_result, retry_if_exception_type, stop_after_delay, \
-    wait_exponential
+from tenacity import retry, stop_after_attempt, retry_if_result, retry_if_exception_type, stop_after_delay, wait_exponential
 import httpx
-from xxjob.blocksModel import Block, Mention, RichText, LinkPreview, Divider, Column, ColumnList, TableX
+from blocksModel import Block, Mention, RichText, LinkPreview, Divider, Column, ColumnList, TableX
 
 
 class easyNotion:
