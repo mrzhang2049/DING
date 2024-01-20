@@ -1,5 +1,5 @@
 import json
-from easyNotion import easyNotion
+from easyNotion.easyNotion import easyNotion
 import efinance as ef
 import httpx
 from datetime import datetime, timedelta
@@ -8,19 +8,27 @@ from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Bloc
 from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
 import holidays
 import sys
+import copy
+from decimal import Decimal
 
-sys.path.append("..")
 
-
-def dingpush(jsonData):
+def dingpush(jsondataArray):
     webhook = ('https://oapi.dingtalk.com/robot/send?access_token'
                '=dd9371044f8fa37f87d0e2d6aa7779e9e0fe5726fa37d512d07c153829a526ab')
     secret = 'SECd1cdc38d02add22f10362755d61e5d8608a86a36036dae78be30875490608bb8'  # 可选：创建机器人勾选“加签”选项时使用
     xiaoding = DingtalkChatbot(webhook, pc_slide=True, secret=secret)
-    text_str = "\n"
-    for itm in jsonData:
-        text_str = text_str + f"[{itm["Name"]}](http://coding.net)\n\n\n"
-    xiaoding.send_markdown(title='提醒', text=text_str, is_at_all=True)
+    text_str = ''
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    now = datetime.now()
+    year, current_week, weekday = now.isocalendar()
+    for jsondata in jsondataArray:
+        isup = hasattr(jsondata, 'upNum')
+        text_str += f"[{jsondata["Name"]}](http://coding.net)\n\n\n"
+        text_str += f"![{jsondata["Name"]}](https://j3.dfcfw.com/images/APPFavorNav/big/SYL_3Y/{jsondata['Code']}.png)\n\n\n"
+        text_str += f"[{jsondata["vals"]}]\n\n\n"
+        text_str += jsondata[f'{current_week}Week'] + " " + jsondata[f'{current_week - 1}Week'] + " " + jsondata[
+            f'{current_week - 2}Week'] + "\n\n\n"
+    xiaoding.send_markdown(title='提醒', text=text_str, is_at_all=False)
 
 
 def get_week_start_end_date(year, week_num):
@@ -47,18 +55,16 @@ def calculate_percentage(old, new):
 
 
 if __name__ == '__main__':
-
-    print(sys.path)
-    dbPage = easyNotion.easyNotion('d5c62b873aef4b77afc2e7870de97e38',
-                                   'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
-                                   is_page=True)
-    print(dbPage)
+    dbPage = easyNotion('d5c62b873aef4b77afc2e7870de97e38',
+                        'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
+                        is_page=True)
     current_date = datetime.now().strftime('%Y-%m-%d')
     now = datetime.now()
     year, current_week, weekday = now.isocalendar()
     step = current_week if int(current_week) - 4 > 0 else 0
     parent_id = dbPage.create_page(title=f"{current_date}周报", parent_id="d5c62b873aef4b77afc2e7870de97e38")
     jsonArray = []
+    jsonPushData = []
     title = {'Name': '名称', 'Code': 'Code'}
     for i in range(current_week, step, -1):
         title.update({f'{i}Week': f'{i}Week'})
@@ -67,18 +73,9 @@ if __name__ == '__main__':
         for item in file:
             baseinfo = ef.fund.get_base_info(item.strip())
             df1 = ef.fund.get_quote_history(item.strip(), 30)
-            dayNum_3 = 3
-            subset_df = df1.head(dayNum_3)
-            if all(subset_df['涨跌幅'] < 0):
-                itm.update({'downNum': dayNum_3})
-                dingpush(itm)
-            if all(subset_df['涨跌幅'] > 0):
-                itm.update({'upNum': dayNum_3})
-                dingpush(itm)
             itm = {'Name': baseinfo["基金简称"], 'Code': baseinfo["基金代码"]}
             for i in range(current_week, step, -1):
                 start_date, end_date = get_week_start_end_date(2024, i)
-                print(start_date, end_date)
                 result0 = df1[df1['日期'] == f'{start_date}']
                 result1 = df1[df1['日期'] == f'{end_date}']
                 if len(result0) != 0 and len(result1) != 0:
@@ -87,12 +84,28 @@ if __name__ == '__main__':
                 else:
                     itm.update({f'{i}Week': f'{0:.2f}%'})
             jsonArray.append(itm)
+            itm_new = copy.deepcopy(itm)
 
+            dayNum_up = 3
+            dayNum_down = 3
+            subset_df = df1.head(dayNum_down)
+            vals = subset_df['涨跌幅'].astype(str).str.cat(sep='  ')
+            if all(subset_df['涨跌幅'] < 0):
+                itm_new.update({'downNum': f'{dayNum_down}', "vals": vals})
+                jsonPushData.append(itm_new)
+            if all(subset_df['涨跌幅'] > 0):
+                itm_new.update({'upNum': f'{dayNum_up}', "vals": vals})
+                jsonPushData.append(itm_new)
+            if Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0 and Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0 and Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0:
+                jsonPushData.append(itm)
+            if Decimal(itm[f'{current_week}Week'].replace("%", "")) + Decimal(itm[f'{current_week}Week'].replace("%", "")) + Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0:
+                jsonPushData.append(itm)
     content_blocks = [
         RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
                  annotations={"color": "red"}),
         TableX("", jsonArray, parent_id),
     ]
+    dingpush(jsonPushData)
     dbPage.insert_page(content_blocks)
     # df1["单位净值"] = [str(ite) for ite in df1["单位净值"]]
     # df1["Color"] = ["gray" if ite > 0 else 'red' for ite in df1["涨跌幅"]]

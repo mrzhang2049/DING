@@ -1,15 +1,10 @@
-import sys
 import random
-import smtplib
-import requests
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from jinja2 import Template
-from dingtalkchatbot.chatbot import DingtalkChatbot
+import sys
 from datetime import datetime
-import time
-from notion_client import Client
+
 import httpx
+from notion_client import Client
+
 if __name__ == '__main__':
     num = (int)(sys.argv[1])
     database_id = '9b83664c12e443628f669752e55449aa'
