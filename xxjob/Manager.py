@@ -24,8 +24,9 @@ def dingpush(jsondataArray):
         text_str += f"[{jsondata["Name"]}](http://coding.net)\n\n\n"
         text_str += f"![{jsondata["Name"]}](https://j3.dfcfw.com/images/APPFavorNav/big/SYL_3Y/{jsondata['Code']}.png)\n\n\n"
         text_str += f"[{jsondata["vals"]}]\n\n\n"
-        text_str += jsondata[f'{current_week}Week'] + " " + jsondata[f'{current_week - 1}Week'] + " " + jsondata[
-            f'{current_week - 2}Week'] + "\n\n\n"
+        text_str += "[" + jsondata[f'{current_week}Week'] + "  " + jsondata[f'{current_week - 1}Week'] + "  " + \
+                    jsondata[f'{current_week - 2}Week'] + "]\n\n\n"
+        text_str += "---\n\n\n\n\n\n"
     xiaoding.send_markdown(title='提醒', text=text_str, is_at_all=False)
 
 
@@ -94,9 +95,13 @@ if __name__ == '__main__':
             if all(subset_df['涨跌幅'] > 0):
                 itm_new.update({'upNum': f'{dayNum_up}', "vals": vals})
                 jsonPushData.append(itm_new)
-            if Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0 and Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0 and Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0:
+            if Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0 and Decimal(
+                    itm[f'{current_week}Week'].replace("%", "")) > 0 and Decimal(
+                itm[f'{current_week}Week'].replace("%", "")) > 0:
                 jsonPushData.append(itm)
-            if Decimal(itm[f'{current_week}Week'].replace("%", "")) + Decimal(itm[f'{current_week}Week'].replace("%", "")) + Decimal(itm[f'{current_week}Week'].replace("%", "")) > 0:
+            if Decimal(itm[f'{current_week}Week'].replace("%", "")) + Decimal(
+                    itm[f'{current_week}Week'].replace("%", "")) + Decimal(
+                itm[f'{current_week}Week'].replace("%", "")) > 0:
                 jsonPushData.append(itm)
     content_blocks = [
         RichText(text_type="callout", id="", parent_id=parent_id, plain_text="callout",
