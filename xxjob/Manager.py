@@ -67,7 +67,7 @@ if __name__ == '__main__':
     for i in range(current_week, step, -1):
         title.update({f'{i}Week': f'{i}Week'})
     jsonArray.append(title)
-    with open('./txt_dingfund.txt', 'r') as file:
+    with open('txt_dingfund.txt', 'r') as file:
         for item in file:
             baseinfo = ef.fund.get_base_info(item.strip())
             df1 = ef.fund.get_quote_history(item.strip(), 30)
