@@ -52,13 +52,13 @@ if __name__ == '__main__':
                     }
                     notion.pages.create(parent=parent, properties=new_page)
                     # send_dingtalk(item[0])
-                else:
-                    print(f'{item[0]}_________#######################__________')
-                    for result in query_result:
-                        page_id = result['id']
-                        number = result.get("properties").get("Number").get("number")
-                        new_page = {
-                            "Number": {"number": number},
-                            "Date": {'type': 'date', 'date': {'start': str(current_date), 'end': None}},
-                        }
-                        notion.pages.update(page_id=page_id, properties=new_page)
+                # else:
+                #     print(f'{item[0]}_________#######################__________')
+                #     for result in query_result:
+                #         page_id = result['id']
+                #         number = result.get("properties").get("Number").get("number")
+                #         new_page = {
+                #             "Number": {"number": number},
+                #             "Date": {'type': 'date', 'date': {'start': str(current_date), 'end': None}},
+                #         }
+                #         notion.pages.update(page_id=page_id, properties=new_page)
