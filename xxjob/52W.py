@@ -27,7 +27,7 @@ if __name__ == '__main__':
                f'=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change'
                f'%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time'
                f'&cursor={i}')
-        res = httpx.get(url, headers=headers,verify=False).json()
+        res = httpx.get(url, headers=headers,verify=False,timeout=60).json()
         datalist = res['data']['candle']
         for item in datalist:
             if item[10] == item[8]:
