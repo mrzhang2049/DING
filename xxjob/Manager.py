@@ -1,15 +1,13 @@
-import json
-from easyNotion.easyNotion import easyNotion
 import efinance as ef
-import httpx
 from datetime import datetime, timedelta
 import pandas as pd
-from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
-from dingtalkchatbot.chatbot import DingtalkChatbot, ActionCard, CardItem
+from xxjob.blocksModel import RichText, TableX
+from dingtalkchatbot.chatbot import DingtalkChatbot
 import holidays
-import sys
 import copy
 from decimal import Decimal
+
+from xxjob.easyNotion import easyNotion
 
 
 def dingpush(jsondataArray):
@@ -55,8 +53,8 @@ def calculate_percentage(old, new):
 
 
 if __name__ == '__main__':
-    dbPage = easyNotion('d5c62b873aef4b77afc2e7870de97e38',
-                        'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
+    dbPage = easyNotion(notion_id='d5c62b873aef4b77afc2e7870de97e38',
+                        token='secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
                         is_page=True)
     current_date = datetime.now().strftime('%Y-%m-%d')
     now = datetime.now()
@@ -106,7 +104,7 @@ if __name__ == '__main__':
         TableX("", jsonArray, parent_id),
     ]
     dingpush(jsonPushData)
-    dbPage.insert_page(content_blocks)
+    dbPage.insert_page(blocks=content_blocks)
     # df1["单位净值"] = [str(ite) for ite in df1["单位净值"]]
     # df1["Color"] = ["gray" if ite > 0 else 'red' for ite in df1["涨跌幅"]]
     # df1["涨跌幅"] = [str(ite) for ite in df1["涨跌幅"]]

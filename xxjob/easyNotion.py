@@ -10,11 +10,12 @@ import tenacity
 from tenacity import retry, stop_after_attempt, retry_if_result, retry_if_exception_type, stop_after_delay, \
     wait_exponential
 import httpx
-from easyNotion.blocksModel import Block, Mention, RichText, LinkPreview, Divider, Column, ColumnList, TableX
+from xxjob.blocksModel import Block, Mention, RichText, LinkPreview, Divider, Column, ColumnList, TableX
 
 
 class easyNotion:
     @overload
+
     def __init__(self,
                  notion_id: str,
                  token: Union[str, List[str]],
@@ -29,6 +30,7 @@ class easyNotion:
                  download_path: str = '',
                  trust_env: bool = False):
         ...
+
 
     def __init__(self, notion_id: str, token: Union[str, List[str]], **kwargs):
         """
@@ -486,7 +488,7 @@ class easyNotion:
 
         return copy.deepcopy(ret)
 
-    @staticmethod
+
     def __is_match_condition(row: Dict[str, str], condition: Dict[str, Union[str, re.Pattern]]) -> bool:
         """
         判断row是否符合条件condition,condition为正则表达式
@@ -530,6 +532,7 @@ class easyNotion:
                 self.__col_name[col] = 'files'
 
     # 插入数据
+
     def insert(self, data: Dict[str, str]) -> requests.models.Response:
         """
         插入数据

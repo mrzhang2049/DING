@@ -11,7 +11,6 @@ if __name__ == '__main__':
     notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
     notion = Client(auth=notion_token)
     parent = {"database_id": database_id, "type": "database_id"}
-
     i = (num - 1) * 8
     # random_number = random.random()
     # time.sleep(random_number)
@@ -38,6 +37,7 @@ if __name__ == '__main__':
                 if length == 0:
                     new_page = {
                         "Name": {"title": [{"text": {"content": f'{item[0]}'}}]},
+                        "Code": {"title": [{"text": {"content": f'{item[1]}'}}]},
                         "Tags": {"type": "multi_select", "multi_select": [{"name": f'{i}'}]},
                         "Date": {'type': 'date', 'date': {'start': str(current_date), 'end': None}},
                         "Number": {"number": 0},

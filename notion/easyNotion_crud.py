@@ -4,10 +4,8 @@
 # 对页面的操作的支持度较低
 # 易上手的代价是没有复杂的机制，未在大型项目上测试
 
-from easyNotion import easyNotion
-from pprint import pprint
-from typing import List, Union
-from easyNotion.blocksModel import Divider, Mention, LinkPreview, RichText, Block, TableX, ColumnList, Image
+from xxjob import easyNotion
+from xxjob.blocksModel import RichText, TableX, ColumnList, Image
 
 # db = easyNotion('c4db279645344510acb15d556caffce1', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ')
 dbPage = easyNotion('adca7e5f3cc44781b42d972303d8bf35', 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ',
