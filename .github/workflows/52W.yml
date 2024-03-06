@@ -2,7 +2,7 @@ name: 52W
 on:
   push:
   schedule:
-  - cron:  '30 14 * * 0-6'
+  - cron:  '30 14 * * 1-5'
 jobs:
   send_message:
     runs-on: ubuntu-latest

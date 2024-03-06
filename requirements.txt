@@ -15,5 +15,9 @@ pygal
 pyecharts
 pandas
 holidays
-
-
+plotly
+orca
+matplotlib
+qiniu
+sqlalchemy
+pymysql
