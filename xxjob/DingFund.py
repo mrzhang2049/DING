@@ -18,7 +18,7 @@ if __name__ == '__main__':
     session = requests.session()
     current_date = datetime.now().strftime('%Y-%m-%d')
     filename = f'./document_{current_date}.txt'
-    with open('./txt_dingfund.txt', 'r') as file:
+    with open('./xxjob/txt_dingfund.txt', 'r') as file:
         for item in file:
             baseinfo = ef.fund.get_base_info(item.strip())
             filter = {"property": "Code", "rich_text": {"contains": f'{item}'}}

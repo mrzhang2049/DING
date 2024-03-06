@@ -4,17 +4,28 @@ from datetime import datetime
 from retrying import retry
 import httpx
 from notion_client import Client
+
+
 @retry(stop_max_attempt_number=3, wait_fixed=1000)
-def createRecord(parent,properties):
+def createRecord(parent, properties):
     notion.pages.create(parent=parent, properties=properties)
+
+
+@retry(stop_max_attempt_number=3, wait_fixed=1000)
+def marketSearch(i):
+    headers = {
+        'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
+    }
+    url = (f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field'
+           f'=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change'
+           f'%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time'
+           f'&cursor={i}')
+    res = httpx.get(url, headers=headers, verify=False, timeout=60).json()
+    return res
+
+
 if __name__ == '__main__':
     # 创建一个Retry对象，配置重试次数和重试条件
-    retries = httpx.Retry(
-        retries=3,  # 总共尝试3次，包括第一次请求
-        backoff_factor=0.5,  # 重试间隔时间乘数，默认为0.5秒
-        status_forcelist=[429, 500, 502, 503, 504],  # 对这些HTTP状态码进行重试
-        method_whitelist=frozenset(["GET", "POST"]),  # 只对GET和POST方法进行重试
-    )
     num = (int)(sys.argv[1])
     database_id = '9b83664c12e443628f669752e55449aa'
     notion_token = 'secret_j4748C1PwOII5JWcVb1Myn5Vqyw75cn6ggDtf2dBMYQ'
@@ -29,15 +40,7 @@ if __name__ == '__main__':
     #     file.write(datetime.now().strftime('%Y-%m-%d'))
     while num * 8 >= i >= (num - 1) * 8:
         i = i + 1
-        headers = {
-            'X-Forwarded-For': f'{random.randint(10, 126)}.{random.randint(10, 254)}.{random.randint(10, 254)}.{random.randint(10, 254)}'
-        }
-        url = (f'https://api-ddc-wscn.awtmt.com/market/rank?market_type=mdc&stk_type=stock&order_by=none&sort_field'
-               f'=px_change_rate&limit=15&fields=prod_name%2Cprod_en_name%2Cprod_code%2Csymbol%2Clast_px%2Cpx_change'
-               f'%2Cpx_change_rate%2Chigh_px%2Clow_px%2Cweek_52_high%2Cweek_52_low%2Cprice_precision%2Cupdate_time'
-               f'&cursor={i}')
-        client = httpx.Client(retries=retries)
-        res = httpx.get(url, headers=headers, verify=False, timeout=60).json()
+        res = marketSearch(i)
         datalist = res['data']['candle']
         for item in datalist:
             if item[10] == item[8]:
